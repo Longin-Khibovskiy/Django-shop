@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Корзина
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <table class="table">
+            <thead>
+            <tr style="text-align: center">
+                <th scope="col">Бренд</th>
+                <th scope="col">Модель</th>
+                <th scope="col">Фото</th>
+                <th scope="col">Количество</th>
+                <th scope="col">Цена за шт</th>
+                <th scope="col">Валюта</th>
+                <th scope="col">Общая цена</th>
+                <th scope="col">Удаление</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in basket %}
+                {% with product_obj=item.shoes %}
+                    <tr style="text-align: center">
+                        <td>
+                        {{ product_obj.brand }}
+                        </td>
+
+                        <td>
+                            <a href="{% url 'one_shoes' product_obj.pk %}" style="text-decoration: none;color: black">
+
+                                {{ product_obj.name }}
+                            </a>
+                        </td>
+                        <td>
+                            {% if product_obj.photo != "" %}
+                                <a href="{% url 'one_shoes' product_obj.pk %}">
+                                <img src="{{ product_obj.photo.url }}" class="card-img-top" alt="..."
+                                     style="height: 10rem; width: auto; border-radius: 10px"></a>
+                            {% else %}
+                                <img src="{% static 'Image/m2k.jpeg' %}" class="card-img-top" alt="...">
+                            {% endif %}
+                        </td>
+                        <td style="text-align: center">
+                            {{ item.count_prod }}
+                        </td>
+                        <td>
+                            {{ item.price_prod }} Руб.
+                        </td>
+                        <td> Руб.</td>
+                        <td>
+                            {{ item.total_price }} Руб.
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-primary" href="{% url 'remove_basket_prod' product_obj.pk %}">Удалить</a>
+                        </td>
+                    </tr>
+                {% endwith %}
+            {% endfor %}
+            <tr>
+                <td colspan=6" style="border: mediumpurple 2px solid;"><b>Всего:</b></td>
+                <td style="border: hotpink 2.5px solid; text-align: center">{{ basket.get_total_price }} Руб.</td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+            <a type="button" class="btn btn-primary" href="{% url 'list_shoes' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                    <path fill-rule="evenodd"
+                          d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
+                </svg>
+                Посмотреть еще обувь
+            </a>
+            <a href="{% url 'clear_basket_prod' %}" class="btn btn-danger">Очистить</a>
+{#            <a type="button" class="btn btn-success" href="#">#}
+{#                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"#}
+{#                     class="bi bi-cart-check" viewBox="0 0 16 16">#}
+{#                    <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"></path>#}
+{#                    <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>#}
+{#                </svg>#}
+{#                Оформить заказ#}
+{#            </a>#}
+        </div>
+    </div>
+{% endblock %}
