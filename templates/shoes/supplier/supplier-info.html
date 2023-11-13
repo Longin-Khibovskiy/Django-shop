@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1 style="margin-left: 10px">{{ object.title }}</h1>
+    <ul class="list-group">
+        <li class="list-group-item" style="width: 25rem; background-color: #F5DFFF; border: 3px #F5DFFF solid">ФИО поставщика:</li>
+        <li class="list-group-item" style="width: 25rem; background-color: #F5DFFF; border: 3px #F5DFFF solid">Фамилия – {{ one_supplier.agent_firstname }}</li>
+        <li class="list-group-item" style="width: 25rem; background-color: #F5DFFF; border: 3px #F5DFFF solid">Имя – {{ one_supplier.agent_name }}</li>
+        <li class="list-group-item" style="width: 25rem; background-color: #F5DFFF; border: 3px #F5DFFF solid">Отчество – {{ one_supplier.agent_patronymic }}</li>
+    </ul><br>
+
+
+    {% if perms.fruit.change_supplier %}
+
+        <a href="{% url 'edit_supp_view' object.pk %}" class="btn btn-outline-warning">Редактировать</a><br>
+    {% endif %}
+
+    {% if perms.fruit.delete_supplier %}
+        <form method="post" action="{% url 'del_supp_view' object.pk %}">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-danger" value="Удалить" style="margin-top: 5px"><br>
+
+        </form>
+    {% endif %}
+    <a href="{% url 'list_supp_view' %}" class="btn btn-outline-info" style="margin-top: 5px">Назад</a>
+{% endblock %}

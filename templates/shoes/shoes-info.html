@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ shoes_item.name }}
+{% endblock %}
+
+{% block content %}
+    <div style="margin: 5px">
+    <img src="{{ shoes_item.photo.url }}" class="card-img-top" alt="..."
+         style="height: 13rem; width: auto; border-radius: 5%">
+        <br>
+        <br>
+        <ul class="list-group">
+            <li class="list-group-item" style="width: 25rem; background-color: #F5DFFF; border: 3px #F5DFFF solid">Наименование: {{ shoes_item.name }}</li>
+            <li class="list-group-item" style="width: 25rem;background-color: #F5DFFF; border: 3px #F5DFFF solid">Описание: {{ shoes_item.descrilition }}</li>
+            <li class="list-group-item" style="width: 25rem;background-color: #F5DFFF; border: 3px #F5DFFF solid">Цена: {{ shoes_item.price }}</li>
+            <li class="list-group-item" style="width: 25rem;background-color: #F5DFFF; border: 3px #F5DFFF solid">Дата создания: {{ shoes_item.date_create }}</li>
+        </ul>
+    </div>
+    <div class="dropdown" style="margin-left: 5px">
+        <form method="post" action="{% url 'add_basket_prod' shoes_item.pk %}">
+            {% csrf_token %}
+            {{ basket_form }}
+            <input type="submit" class="btn btn-success" value="Добавить в корзину" style="background-color: rebeccapurple; border: white">
+        </form>
+    </div>
+
+    <a href="{% url 'list_shoes' %}" class="btn btn-outline-info" style="margin-left: 5px; background: mediumpurple; border: mediumpurple; color: white">Назад</a>
+{% endblock %}

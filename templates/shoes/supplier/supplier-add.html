@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Добавление поставщика
+{% endblock %}
+
+{% block content %}
+    <div class="container text-center">
+        <div class="row align-items-start">
+            <div class="col">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {% if field.name != 'exist' %}
+                            <div class="form-floating mb-4">
+                                {{ field }}
+                                <label class="" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            </div>
+                            {{ field.errors }}
+                        {% else %}
+                            {{ field }}
+                            <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field.errors }}
+                        {% endif %}
+                    {% endfor %}
+                <p>
+                    <input class="btn btn-dark" type="submit" value="Добавить поставщика"></p>
+                </form>
+                <a class="btn btn-info" href="{% url 'list_supp_view' %}">Назад</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

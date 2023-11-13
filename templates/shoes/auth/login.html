@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Авторизация
+{% endblock %}
+{% block content %}
+    <body>
+    <div class="text-center" style="width: 100%">
+        <div style="align-items: center">
+            <form method="post" style="margin-left: 30%; margin-right: 30%">
+                <img src="/media/Хибовские_лого_1.png" alt="Хибовские" style="width: 200px; height: 200px">
+                <h1>Please sign in</h1>
+                {% csrf_token %}
+                {{ form.as_div }}
+                <br>
+                <input type="submit" class="w-100 btn btn-lg btn-primary" value="Sign in">
+            </form>
+        </div>
+    </div>
+    </body>
+{% endblock %}

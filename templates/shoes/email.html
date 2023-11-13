@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Обратная связь
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+
+            {{ form.subject.label }}
+            {{ form.subject }}
+
+            {{ form.content.label }}
+            {{ form.content }}
+
+            <br><input type="submit" class="btn btn-primary" value="Отправить сообщение" style="background-color: rebeccapurple; border: white">
+        </form>
+        <a class="btn btn-warning" href="{% url 'index_shoes' %}">Назад</a>
+    </div>
+{% endblock %}

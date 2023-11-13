@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block link %}
+    <link rel="stylesheet" href="{% static 'CS/index.css' %}">
+    <link rel="stylesheet" href="{% static 'Bootstrap/bootstrap-5.3.0-alpha3-dist/css/bootstrap.min.css' %}">
+{% endblock %}
+{% block content %}
+
+    <div>
+        <h1>Список обуви</h1>
+        <a type="button" class="btn btn-primary" href="{% url 'add_shoes' %}" style="background: lightpink; border: lightpink">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle"
+                 viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+            </svg>
+            Добавить обувь
+        </a>
+        <a type="button" class="btn btn-secondary" href="{% url 'index_shoes' %}" style="background: mediumpurple; border: mediumpurple">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left"
+                 viewBox="0 0 16 16">
+                <path d="M10 12.796V3.204L4.519 8 10 12.796zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753z"></path>
+            </svg>
+            Назад
+        </a>
+        <div class="container">
+            <div class="row-cols-lg-5 row-cols-md-5 row-cols-5" style="margin-top: 10px">
+                {% for item in page_obj %}
+
+                    <div class="card" style="height: auto;white-space:nowrap; width:20rem;display:inline-block">
+                        {% if item.photo != "" %}
+                            <img src="{{ item.photo.url }}" class="card-img-top" alt="..."
+                                 style="height: 15rem; border-radius: 1%">
+                        {% else %}
+
+                            <img src="{% static 'Image/lebron.jpeg' %}" class="card-img-top" alt="...">
+                        {% endif %}
+                        <div class="card-body" style="background-image: url('/media/i.jpeg');color: white">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.price }} Руб. </p>
+                            <p class="card-text">{{ item.date_create|date:"Y-m-d l " }}</p>
+                            <a href="{% url 'one_shoes' item.pk %}" class="btn btn-primary" style="background-color: rebeccapurple; border: white">Подробнее</a>
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+            <div class="container">
+                <div class="row align-items-center">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                       aria-label="Previous" style="background-color: rebeccapurple; color: white;  border: white">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            {% for page in page_obj.paginator.page_range %}
+                                {% if page_obj.number == page %}
+                                    <li class="page-item active" aria-current="page">
+                                        <a class="page-link" href="#" style="background-color: rebeccapurple; color: white; border: white">{{ page }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" style="background-color: rebeccapurple; color: white; border: white" href="?page={{ page }}">{{ page }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next" style="background-color: rebeccapurple; color: white; border: white">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+{% endblock %}

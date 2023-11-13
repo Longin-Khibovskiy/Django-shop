@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block link %}
+    <link rel="stylesheet" href="{% static 'CS/index.css' %}">
+    <link rel="stylesheet" href="{% static 'Bootstrap/bootstrap-5.3.0-alpha3-dist/css/bootstrap.min.css' %}">
+{% endblock %}
+{% block content %}
+    <div>
+        <h1>Список брендов, которые у нас есть</h1>
+        {{ info }}<br>
+
+
+        <div>
+            {% for item in page_obj.object_list %}
+                <div class="card" style="width: 30rem; height: auto; background: linear-gradient(white, #F5DFFF);">
+                    {#                        <img src="{{ item.photo.url|default:'' }}" class="card-img-top" alt="...">#}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        {#                        <a href="{% url 'info_supp_view' item.pk %}" class="btn btn-outline-dark">Подробнее</a>#}
+                        <a href="{{ item.get_absolute_url }}" class="btn btn-outline-dark">Подробнее</a>
+
+                    </div>
+
+                </div><br>
+            {% endfor %}
+        <a class="btn btn-primary" href="{% url 'add_supp_view' %}">Добавить бренд</a>
+        {% if page_obj.has_other_pages %}
+        </div>
+
+        <div class="container">
+            <div class="row align-items-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        {% for page in page_obj.paginator.page_range %}
+                            {% if page_obj.number == page %}
+                                <li class="page-item active" aria-current="page">
+                                    <a class="page-link" href="#">{{ page }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}
